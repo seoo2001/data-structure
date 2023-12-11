@@ -18,7 +18,7 @@ typedef struct AdjacentVertex
     element aName;
     Edge *e;
     struct AdjacentVertex *next;
-}AdjacentVertex;
+} AdjacentVertex;
 
 typedef struct Vertex
 {
@@ -99,7 +99,7 @@ void insertEdge(GraphType *G, element v1, element v2, int weight)
 {
     Edge *e = (Edge *)malloc(sizeof(Edge));
     e->v1 = v1;
-    e->v2=  v2;
+    e->v2 = v2;
     e->weight = weight;
     e->next = NULL;
 
@@ -137,24 +137,6 @@ void print(GraphType *G)
     }
 }
 
-void rDFS(GraphType *G, char vName)
-{
-    Vertex *v = findVertex(G, vName);
-    AdjacentVertex *a = NULL;
-    
-    if(v->isVisit == FALSE)
-    {
-        v->isVisit = TRUE;
-        printf("[%c] ", v->vName);
-    }
-    
-    for(a = v->aHead; a != NULL; a = a->next)
-    {
-        v = findVertex(G, a->aName);
-        if(v->isVisit == FALSE)
-            rDFS(G, v->vName);
-    }
-}
 
 typedef struct
 {
@@ -197,35 +179,6 @@ element dequeue(QueueType* Q)
 	}
 	Q->front = (Q->front + 1) % N;
 	return Q->data[Q->front];
-}
-
-void BFS(GraphType *G, element vName)
-{
-    Vertex *v = findVertex(G, vName);
-    AdjacentVertex *a = NULL;
-    
-    QueueType Q;
-    initQueue(&Q);
-    
-    v->isVisit = TRUE;
-    printf("[%c] ", v->vName);
-    enqueue(&Q, v->vName);
-    
-    while(!isQueueEmpty(&Q))
-    {
-        v = findVertex(G, dequeue(&Q));
-        
-        for(a = v->aHead; a != NULL; a = a->next)
-        {
-            v = findVertex(G, a->aName);
-            if(v->isVisit == FALSE)
-            {
-                v->isVisit = TRUE;
-                printf("[%c] ", v->vName);
-                enqueue(&Q, v->vName);
-            }
-        }
-    }
 }
 
 typedef struct
@@ -282,43 +235,6 @@ element peek(StackType* S)
     }
     
     return S->data[S->top];
-}
-
-void DFS(GraphType *G, element vName)
-{
-    Vertex *v = findVertex(G, vName);
-    AdjacentVertex *a = NULL;
-    
-    StackType S;
-    initStack(&S);
-    
-    push(&S, v->vName);
-    //int flag;
-    while(!isStackEmpty(&S))
-    {
-        v = findVertex(G, peek(&S));
-        if(v->isVisit == FALSE)
-        {
-            v->isVisit = TRUE;
-            printf("[%c] ", v->vName);
-        }
-     		
-		 //flag = TRUE;   
-        for(a = v->aHead; a != NULL; a = a->next)
-        {
-            v = findVertex(G, a->aName);
-            if(v->isVisit == FALSE)
-            {
-                push(&S, v->vName);
-				  //flag = FALSE; 
-                break;
-            }
-        }
-        
-		 //if(flag == TRUE)
-        if(a == NULL)
-            pop(&S);
-    }
 }
 
 void incSort(GraphType *G, Edge* edges[]) {
@@ -389,11 +305,7 @@ int main()
     insertEdge(&G, 'e', 'f', 27); insertEdge(&G, 'e', 'g', 25);
     
     print(&G); printf("\n");
-    
-    //printf("rDFS : "); rDFS(&G, 'g');
-    //printf("BFS : "); BFS(&G, 'g');
-    // printf("DFS : "); DFS(&G, 'g');
-    
+
     Edge* edges[N];
 
     incSort(&G, edges); printf("\n");

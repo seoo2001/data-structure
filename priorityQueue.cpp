@@ -58,6 +58,7 @@ element removeHeap(HeapType *H) {
     H->heap[1] = H->heap[H->heapSize];
     H->heapSize--;
     downHeap(H);
+    return key;
 }
 
 void HeapSort(HeapType *H) {
@@ -73,7 +74,8 @@ int main() {
     InsertHeap(&H, 2); InsertHeap(&H, 2); InsertHeap(&H, 1);
     InsertHeap(&H, 3);
     print(&H, 1);
-    removeHeap(&H);
+    element k = removeHeap(&H);
+    // printf("%d ", k);
     print(&H, 1);
     removeHeap(&H);
     print(&H, 1);
